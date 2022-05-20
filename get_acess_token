@@ -1,0 +1,24 @@
+
+from secrets import refresh_token, base_64
+import requests
+import json
+
+
+def refresh(refresh_token, base_64):
+
+    query = "https://accounts.spotify.com/api/token"
+    request_data = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token
+    }
+    request_header = {
+        "Authorization": "Basic " + base_64
+    }
+    response = requests.post(query, data=request_data, headers=request_header)
+    response_json = response.json()
+    print(json.dumps(response_json, indent=2))
+    access_token = response_json["access_token"]
+    return access_token
+
+
+token = refresh(refresh_token, base_64)
