@@ -1,0 +1,29 @@
+import base64
+import requests
+import json
+from secrets import *
+import datetime
+from refresh import token
+
+playlist_name = "TEST"
+playlist_description = "TESTT"
+
+
+def update_metadata(token, playlist_id, playlist_name, playlist_description):
+    playlist_endpoint = f"https://api.spotify.com/v1/playlists/{playlist_id}"
+    metadata = {
+            "name": playlist_name, "description": playlist_description, "public": True
+    }
+    get_headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}"
+    }
+    res = requests.put(playlist_endpoint, headers=get_headers, json=metadata)
+    print(res)
+    return res
+
+
+update_metadata(token, playlist_id, playlist_name, playlist_description)
+
+
